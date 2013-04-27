@@ -1,0 +1,6 @@
+<form action="{{ path('digger_treedemo_default_edit', {'id' : id }) }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+<button type="submit" class="btn btn-primary">
+  <i class="icon-pencil icon-white"></i>  Submit
+</button>
+</form>

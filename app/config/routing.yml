@@ -1,0 +1,5 @@
+digger_tree_demo:
+    resource: "@DiggerTreeDemoBundle/Controller/"
+    type:     annotation
+    prefix:   /
+

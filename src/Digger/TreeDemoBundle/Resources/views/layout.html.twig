@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}{{ app_name }} {{ version }}{% endblock %}</title>
+        {% block javascripts %}
+          {% javascripts '@jquery_js' '@bootstrap_js' filter='?yui_js' combine=true %}
+             <script src="{{ asset_url }}"></script>
+          {% endjavascripts %}
+        {% endblock %}
+
+        {% block stylesheets %}
+          {% stylesheets '@bootstrap_less' combine=true %}
+            <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+         {% endstylesheets %}
+        {% endblock %}
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+
+      @media (max-width: 980px) {
+        /* Enable use of floated navbar text */
+        .navbar-text.pull-right {
+          float: none;
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+      }
+      
+      
+      .tree li {
+          margin: 0px 0;
+
+            list-style-type: none;
+            position: relative;
+            padding: 20px 5px 0px 5px;
+        }
+
+        .tree li::before{
+            content: '';
+            position: absolute; 
+            top: 0;
+            width: 1px; 
+            height: 100%;
+            right: auto; 
+            left: -20px;
+            border-left: 1px solid #ccc;
+            bottom: 50px;
+        }
+        .tree li::after{
+            content: '';
+            position: absolute; 
+            top: 30px; 
+            width: 25px; 
+            height: 20px;
+            right: auto; 
+            left: -20px;
+            border-top: 1px solid #ccc;
+        }
+        .tree li a{
+            display: inline-block;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: #666;
+            font-family: arial, verdana, tahoma;
+            font-size: 11px;
+            border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+        }
+
+        /*Remove connectors before root*/
+        .tree > ul > li::before, .tree > ul > li::after{
+            border: 0;
+        }
+        /*Remove connectors after last child*/
+        .tree li:last-child::before{ 
+              height: 30px;
+        }
+
+        /*Time for some hover effects*/
+        /*We will apply the hover effect the the lineage of the element also*/
+        .tree li a:hover, .tree li a:hover+ul li a {
+            background: #c8e4f8; color: #000; border: 1px solid #94a0b4;
+        }
+        /*Connector styles on hover*/
+        .tree li a:hover+ul li::after, 
+        .tree li a:hover+ul li::before, 
+        .tree li a:hover+ul::before, 
+        .tree li a:hover+ul ul::before{
+            border-color:  #94a0b4;
+        }
+    </style>
+    </head>
+    <body data-spy="scroll" data-target=".bs-docs-sidebar">
+        <!-- Navbar
+        ================================================== -->
+        <div class="navbar navbar-inverse navbar-fixed-top">
+          <div class="navbar-inner">
+            <div class="container">
+               <button class="btn btn-success" type="button">Add</button>
+               <button class="btn btn-danger" type="button">Delete</button>
+                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+                    
+              <a class="brand" href="/">{{ app_name }} {{ version }} <i class="icon-leaf"></i></a>
+              <div class="nav-collapse collapse">
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-fluid">
+        {% block content %}
+        {% endblock %}
+        </div> <!-- /container -->
+
+        <hr>
+
+      <footer>
+        <p>&copy; Tree Demo by Digger 2013</p>
+      </footer>
+
+    </body>
+</html>

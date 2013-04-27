@@ -1,0 +1,124 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: doctrine_extensions.yml }
+
+framework:
+    #esi:             ~
+    #translator:      { fallback: %locale% }
+    secret:          %secret%
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: %kernel.debug%
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trusted_proxies: ~
+    session:         ~
+    fragments:       ~
+
+# Twig Configuration
+twig:
+    debug:            %kernel.debug%
+    strict_variables: %kernel.debug%
+    globals:
+        version: "0.1.0"
+        app_name: "Tree demo"
+
+# Assetic Configuration
+
+    
+assetic:
+  java: /usr/bin/java
+  filters:
+    cssembed:
+      jar: %kernel.root_dir%/Resources/java/cssembed-0.4.5.jar
+    yui_js:
+      jar: %kernel.root_dir%/Resources/java/yuicompressor.jar
+    lessphp:
+      file: %kernel.root_dir%/../vendor/leafo/lessphp/lessc.inc.php
+      apply_to: "\.less$"
+  assets:
+    jquery_js:
+        inputs:
+            - '%kernel.root_dir%/Resources/public/js/vendor/jquery.js'
+        filters: [?yui_js]
+    bootstrap_js:
+        inputs:
+            - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-transition.js'
+            - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-alert.js'
+            - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-modal.js'
+            - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-dropdown.js'
+            - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-scrollspy.js'
+            - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-tab.js'
+            - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-tooltip.js'
+            - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-popover.js'
+            - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-button.js'
+            - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-collapse.js'
+            - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-carousel.js'
+            - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-typeahead.js'
+            - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/bootstrap-affix.js'
+        filters: [?yui_js]
+    bootstrap_less:
+        inputs:
+            - '%kernel.root_dir%/../vendor/twitter/bootstrap/less/bootstrap.less'
+        filters: [lessphp,cssembed]
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   %database_driver%
+        host:     %database_host%
+        port:     %database_port%
+        dbname:   %database_name%
+        user:     %database_user%
+        password: %database_password%
+        charset:  UTF8
+        # if using pdo_sqlite as your database driver, add the path in parameters.yml
+        # e.g. database_path: %kernel.root_dir%/data/data.db3
+        # path:     %database_path%
+
+    orm:
+        auto_generate_proxy_classes: %kernel.debug%
+        auto_mapping: true
+        mappings:
+            tree:
+               type: annotation
+               alias: Gedmo
+               prefix: Gedmo\Tree\Entity
+               dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+
+
+services:
+    # KernelRequest listener
+    extension.listener:
+        class: Acme\DemoBundle\Listener\DoctrineExtensionListener
+        calls:
+            - [ setContainer, [ @service_container ] ]
+        tags:
+            # translatable sets locale after router processing
+            - { name: kernel.event_listener, event: kernel.request, method: onLateKernelRequest, priority: -10 }
+            # loggable hooks user username if one is in security context
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+services:
+    # KernelRequest listener
+    # Doctrine Extension listeners to handle behaviors
+    gedmo.listener.tree:
+        class: Gedmo\Tree\TreeListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ @annotation_reader ] ]
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: %mailer_transport%
+    host:      %mailer_host%
+    username:  %mailer_user%
+    password:  %mailer_password%
+    spool:     { type: memory }

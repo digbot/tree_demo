@@ -1,0 +1,12 @@
+GRANT ALL ON tree_demo.* TO tree_demo@localhost IDENTIFIED BY 't3at9uTR';
+
+ php app/console generate:bundle --namespace=Digger/TreeDemoBundle --no-interaction --dir=src
+
+php app/console assetic:dump --env=prod --no-debug
+
+php app/console doctrine:schema:update --dump-sql
+
+ php app/console doctrine:generate:entities Digger
+
+
+ php app/console generate:doctrine:form DiggerTreeDemoBundle:Category

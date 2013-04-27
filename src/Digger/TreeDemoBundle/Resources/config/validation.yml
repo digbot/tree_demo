@@ -1,0 +1,6 @@
+Digger\TreeDemoBundle\Entity\Category:
+    properties:
+        title:
+            - NotBlank: ~
+            - MinLength: 3
+            - MinLength: 10
