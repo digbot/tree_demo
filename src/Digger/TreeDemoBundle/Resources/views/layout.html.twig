@@ -69,6 +69,7 @@
             #js_tree_wrap a { white-space:normal !important; height: auto; padding:1px 2px; }
             #js_tree_wrap li > ins { vertical-align:top; }
             #js_tree_wrap .jstree-hovered, #demo4 .jstree-clicked { border:0; }
+            
         </style>
     </head>
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -81,7 +82,9 @@
               <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                 <span class="icon-bar"></span>
               </button>
-              <a   href="{{ path('reload') }}" ><button class="btn btn-warning" type="button">Reload</button></a>
+              <a   href="{{ path('reload') }}" ><button class="btn btn-warning" type="button">Reload / Reset</button></a>
+              <a   href="{{ path('add_root') }}" ><button class="btn btn-primary" type="button">Reset to root</button></a>
+              
               <a class="brand" href="/">{{ app_name }} {{ version }}</a>
                <div class="nav-collapse collapse">
               </div>

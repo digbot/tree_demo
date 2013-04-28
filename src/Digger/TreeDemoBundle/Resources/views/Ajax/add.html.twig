@@ -1,0 +1,3 @@
+<form  id="add_node_form" action="{{ path('ajax_add', {'parentId': form.get('value').getId }) }}" method="post" {{ form_enctype(form) }}>
+  {{ form_widget(form) }}
+<button type="submit" class="btn btn-primary">Add new</button>

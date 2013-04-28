@@ -3,15 +3,13 @@
       <div class="row-fluid">
         <div class="span3">
           <div id="js_tree_wrap" class="well sidebar-nav">
-              {{htmlTree | raw }}
+            {#  {{htmlTree | raw }} #}
           </div><!--/.well -->
         </div><!--/span-->
         <div class="span9">
-          <div class="bs-docs-example">
-                  {% render controller('DiggerTreeDemoBundle:Default:edit', {'id': id}), {  } %}
+          <div class="bs-docs-example" id="tree_node_wrap">
+                  {#% render controller('DiggerTreeDemoBundle:Default:edit', {'id': id}), {  } %#}
           </div>
         </div><!--/span-->
       </div><!--/row-->
-
-
 {% endblock %}

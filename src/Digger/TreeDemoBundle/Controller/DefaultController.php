@@ -12,13 +12,29 @@ use Digger\TreeDemoBundle\Form\Type\CategoryType;
 
 class DefaultController extends Controller
 {
+   /**
+     * @Route("/add_root", name="add_root")
+     * @Template()
+     */
+    public function addrouteAction()
+    {      
+        $this->truncateEntity("categories");
+        
+        $this->em    = $this->getDoctrine()->getManager();
+        $root = new Category();
+        $root->setTitle('Root');
+        $this->em->persist($root);
+        $this->em->flush();
+        
+        return $this->redirect($this->generateUrl('index'));
+    }
+    
     /**
-     * @Route("/reload",name="reload")
+     * @Route("/reload", name="reload")
      * @Template()
      */
     public function reloadAction()
-    {
-        
+    {      
         $this->truncateEntity("categories");
         
         $this->em    = $this->getDoctrine()->getManager();
@@ -46,67 +62,7 @@ class DefaultController extends Controller
         return $this->redirect($this->generateUrl('index'));
     }
     
-    /**
-     * @Route("/add/id", name="add", requirements={"id" = "\d+"}, defaults={"id" = 0})
-     * @Template()
-     */
-    public function addAction($id = 0)
-    {
-         $category = new Category();
-         $form     = $this->createForm(new CategoryType(), $category);
-         
-         return array(
-            'form'  => $form->createView(),
-            'id'    => $id
-        );
-    }
-    
-    /**
-     * @Route("/edit/{id}", name="edit", requirements={"id" = "\d+"}, defaults={"id" = 0})
-     * @Template()
-     */
-    public function editAction($id = 0)
-    {
-        $request  = $this->getRequest();
-        $path     = array();
-        // just setup a fresh $category object
-        
-        if (!$id) {
-            $category = new Category();
-        } else {
-            $em       = $this->getDoctrine()->getManager();
-            $repo     = $em->getRepository('Digger\TreeDemoBundle\Entity\Category');
-            $category = $repo->find($id);
-            $path     = $repo->getPath($category);
-        }
 
-        $form     = $this->createForm(new CategoryType(), $category);
-        if ($request->isMethod('POST')) {
-            $form->bind($request);
-            if ($form->isValid()) {
-                // perform some action, such as saving the task to the database
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($category);
-                $em->flush();
-                return $this->redirect($this->generateUrl('index'));
-            } else {
-          //      echo "<pre>";
-           //     print_r( $this->getErrorMessages($form)); exit();
-                $em->clear();
-                $response = $this->forward('DiggerTreeDemoBundle:Default:index', array(
-                       'id'  => $id,
-                ));
-                return $response;
-            }
-                
-        }
-        return array(
-            'form'  => $form->createView(), 
-            'path'  => $path,
-            'id'    => $id
-        );
-    }
-    
     /**
      * @Route("/",     name="index_empty", requirements={"id" = "\d+"}, defaults={"id" = 0})
      * @Route("/{id}", name="index")
@@ -128,7 +84,6 @@ class DefaultController extends Controller
             'nodeDecorator' => function($node) use (&$controller) {
                 $url = $controller->generateUrl("index", array("id" => $node['id']));
                 return '<a href="'.$url.'">'.$node['title'].'</a>';
-                 
             }
         );
 
@@ -141,24 +96,24 @@ class DefaultController extends Controller
         return array('htmlTree' => $htmlTree, 'id' => $id);
     }
     
- 
-    
     /**
      * @Route("/delete/{id}", name="delete")
      * @Template()
      */
     public function deleteAction($id = 0)
     {
-            $em       = $this->getDoctrine()->getManager();
-            $repo     = $em->getRepository('Digger\TreeDemoBundle\Entity\Category');
-            $category = $repo->find($id);
-            
-            if ($category instanceof Category) {
-                $em->remove($category);
-                $em->flush();
-            }
-            
-            return $this->redirect($this->generateUrl('index'));
+        $em       = $this->getDoctrine()->getManager();
+        $repo     = $em->getRepository('Digger\TreeDemoBundle\Entity\Category');
+        $category = $repo->find($id);
+
+        if ($category instanceof Category) {
+            //$repo->removeFromTree($category);
+            $em->remove($category);
+            $em->flush();
+            $em->clear();
+        }
+
+        return $this->redirect($this->generateUrl('index'));
     }
     
     private function truncateEntity($table)
@@ -166,22 +121,5 @@ class DefaultController extends Controller
         $connection = $this->getDoctrine()->getManager()->getConnection();
         $platform   = $connection->getDatabasePlatform();
         $connection->executeUpdate($platform->getTruncateTableSQL($table, true /* whether to cascade */));
-    }
-    private function getErrorMessages(\Symfony\Component\Form\Form $form) {      
-        $errors = array();
-
-        if ($form->hasChildren()) {
-            foreach ($form->getChildren() as $child) {
-                if (!$child->isValid()) {
-                    $errors[$child->getName()] = $this->getErrorMessages($child);
-                }
-            }
-        } else {
-            foreach ($form->getErrors() as $key => $error) {
-                $errors[] = $error->getMessage();
-            }   
-        }
-
-        return $errors;
     }
 }

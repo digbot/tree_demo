@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Digger\TreeDemoBundle\Form\Type\EntityHiddenType;
 
+use Symfony\Component\Form\FormInterface;
 
 class CategoryType extends AbstractType
 {
@@ -23,22 +24,17 @@ class CategoryType extends AbstractType
                         'empty_value' => 'Choose your color',
                         'empty_data'  => 0
                         ))
-//            ->add('lft')
-//            ->add('lvl')
-//            ->add('rgt')
-//            ->add('root')
               ->add('parent', 'entity', array(
                             'class'=> 'Digger\TreeDemoBundle\Entity\Category', 
                             'property' => 'title',
                             'read_only' => true
-                    ))
-        ;
+              ));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Digger\TreeDemoBundle\Entity\Category'
+            'data_class' => 'Digger\TreeDemoBundle\Entity\Category',
         ));
     }
 

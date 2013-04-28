@@ -2,6 +2,4 @@ Digger\TreeDemoBundle\Entity\Category:
     properties:
         title:
             - NotBlank: ~
-            - Range:
-                min: 3
-                max: 18
+            - Length: { min: 3, max: 16 }

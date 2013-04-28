@@ -1,33 +1,28 @@
-        <!-- breadcrumb
-        ================================================== -->
+<!-- breadcrumb
+================================================== -->
 <ul class="breadcrumb">
     {% for node in path %}
         {% if loop.last %}
         <li class="active" >{{ node.title }}</li>
         {% else %}
-        <li><a href="{{ path('index', { 'id': node.id }) }}">{{ node.title }}</a> <span class="divider">/</span></li>
+        <li><a class="breadcrumb_node_link" id="{'#breadcrumb_node_{' ~ node.id }}" href="{{ '#node' ~ node.id }}">{{ node.title }}</a> <span class="divider">/</span></li>
         {% endif %}
     {% endfor %}
 </ul>
-        <!-- breadcrumb
-        ================================================== -->
+<!-- breadcrumb
+================================================== -->
 <ul class="nav nav-tabs" id="myTab">
   <li class="active"><a href="#edit_node"><button class="btn btn-primary" type="button">edit</button></a></li>
-  <li><a href="#add_node"><button class="btn btn-success" type="button">Add</button></a></li>
+  <li ><a href="#add_node"><button class="btn btn-success" type="button">Add</button></a></li>
   <li><a href="#delete_node"><button class="btn btn-danger" type="button">Delete</button></a></li>
 </ul>
  
 <div class="tab-content">
   <div class="tab-pane active" id="edit_node">
-      <form action="{{ path('edit', {'id' : id }) }}" method="post" {{ form_enctype(form) }}>
-          {{ form_widget(form) }}
-      <button type="submit" class="btn btn-primary">
-        <i class="icon-pencil icon-white"></i>  Submit
-      </button>
-      </form>
+       {% render controller('DiggerTreeDemoBundle:Ajax:edit',{'id': id }) %}
   </div>
-  <div class="tab-pane" id="add_node">
-        {% render controller('DiggerTreeDemoBundle:Default:add',{'id' : id}) %}
+  <div class="tab-pane " id="add_node" >{#form.get('value').getParent.getId#}
+        {% render controller('DiggerTreeDemoBundle:Ajax:add', {'parentId': id }) %}
   </div>
   <div class="tab-pane" id="delete_node">
    <div class="alert alert-block">
