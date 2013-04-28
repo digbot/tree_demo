@@ -1,6 +1,42 @@
-<form action="{{ path('digger_treedemo_default_edit', {'id' : id }) }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-<button type="submit" class="btn btn-primary">
-  <i class="icon-pencil icon-white"></i>  Submit
-</button>
-</form>
+        <!-- breadcrumb
+        ================================================== -->
+<ul class="breadcrumb">
+    {% for node in path %}
+        {% if loop.last %}
+        <li class="active" >{{ node.title }}</li>
+        {% else %}
+        <li><a href="{{ path('index', { 'id': node.id }) }}">{{ node.title }}</a> <span class="divider">/</span></li>
+        {% endif %}
+    {% endfor %}
+</ul>
+        <!-- breadcrumb
+        ================================================== -->
+<ul class="nav nav-tabs" id="myTab">
+  <li class="active"><a href="#edit_node"><button class="btn btn-primary" type="button">edit</button></a></li>
+  <li><a href="#add_node"><button class="btn btn-success" type="button">Add</button></a></li>
+  <li><a href="#delete_node"><button class="btn btn-danger" type="button">Delete</button></a></li>
+</ul>
+ 
+<div class="tab-content">
+  <div class="tab-pane active" id="edit_node">
+      <form action="{{ path('edit', {'id' : id }) }}" method="post" {{ form_enctype(form) }}>
+          {{ form_widget(form) }}
+      <button type="submit" class="btn btn-primary">
+        <i class="icon-pencil icon-white"></i>  Submit
+      </button>
+      </form>
+  </div>
+  <div class="tab-pane" id="add_node">
+        {% render controller('DiggerTreeDemoBundle:Default:add',{'id' : id}) %}
+  </div>
+  <div class="tab-pane" id="delete_node">
+   <div class="alert alert-block">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <h4>Warning!</h4>
+        Best check how secure you are ... 
+        </div>
+        <a href="{{ path('delete',{'id': id}) }}"><button class="btn btn-danger" type="button">Confirm delete</button></a>
+          
+  </div>
+        
+</div>

@@ -33,7 +33,7 @@ class Category
     /**
      * @ORM\Column(name="color", type="integer")
      */
-    private $color;
+    private $color = 1;
 
     /**
      * @Gedmo\TreeLeft
