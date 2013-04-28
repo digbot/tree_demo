@@ -12,17 +12,18 @@
 <!-- breadcrumb
 ================================================== -->
 <ul class="nav nav-tabs" id="myTab">
-  <li class="active"><a href="#edit_node"><button class="btn btn-primary" type="button">edit</button></a></li>
-  <li ><a href="#add_node"><button class="btn btn-success" type="button">Add</button></a></li>
+  <li class="active" ><a href="#add_node"><button class="btn btn-success" type="button">Add</button></a></li>
+  <li><a href="#edit_node"><button class="btn btn-primary" type="button">edit</button></a></li>
   <li><a href="#delete_node"><button class="btn btn-danger" type="button">Delete</button></a></li>
+  <li><a href="#remove_node"><button class="btn btn-warning" type="button">Remove</button></a></li> 
 </ul>
  
 <div class="tab-content">
-  <div class="tab-pane active" id="edit_node">
-       {% render controller('DiggerTreeDemoBundle:Ajax:edit',{'id': id }) %}
+  <div class="tab-pane active" id="add_node" >
+       {% render controller('DiggerTreeDemoBundle:Ajax:add', {'parentId': id }) %}
   </div>
-  <div class="tab-pane " id="add_node" >{#form.get('value').getParent.getId#}
-        {% render controller('DiggerTreeDemoBundle:Ajax:add', {'parentId': id }) %}
+  <div class="tab-pane" id="edit_node">
+       {% render controller('DiggerTreeDemoBundle:Ajax:edit', {'id': id }) %}
   </div>
   <div class="tab-pane" id="delete_node">
    <div class="alert alert-block">
@@ -30,8 +31,14 @@
         <h4>Warning!</h4>
         Best check how secure you are ... 
         </div>
-        <a href="{{ path('delete',{'id': id}) }}"><button class="btn btn-danger" type="button">Confirm delete</button></a>
-          
+        <a href="{{ path('delete',{'id': id}) }}"><button class="btn btn-danger" type="button">Confirm Delete</button></a>
   </div>
-        
+  <div class="tab-pane" id="remove_node">
+   <div class="alert alert-block">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <h4>Warning!</h4>
+        Best check how secure you are ... 
+        </div>
+        <a href="{{ path('remove',{'id': id}) }}"><button class="btn btn-danger" type="button">Confirm Remove</button></a>
+  </div>
 </div>

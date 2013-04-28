@@ -19,7 +19,6 @@ class AjaxController extends Controller
      */
     public function indexAction($id = 0)
     {
-        $id = 0;
         $controller  = $this;
         $em          = $this->getDoctrine()->getManager();
         $repo        = $em->getRepository('Digger\TreeDemoBundle\Entity\Category');
@@ -122,7 +121,7 @@ class AjaxController extends Controller
         $parentId = NULL;
         
         if ($category->getParent() instanceof Category) {
-                $parentId =  $category->getParent()->getId();
+                $parentId = $category->getParent()->getId();
         }
 
         return array(

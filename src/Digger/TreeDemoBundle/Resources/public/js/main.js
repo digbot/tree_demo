@@ -32,23 +32,26 @@ var tdTreeNode = {
     bindSubmitForms: function() {
         $('#edit_node_form').on('submit', this.submitNode);  
         $('#add_node_form').on('submit', this.submitNode);
+        
+        console.log( $('#edit_node_form'));
+        console.log( $('#add_node_form'));
+        
     },
     submitNode: function (event) {
             event.preventDefault();
             $this = $(this);
             $.post($this.attr('action'), $this.serialize(), function (data, textStatus, jqXHR) {
                 if (200 == jqXHR.status) {
-                        tdTreeIndex.refresh(); 
+                    tdTreeIndex.refresh(); 
                 } else {
-                        console.log('Someting went wrong....'); 
+                    console.log('Someting went wrong....'); 
                 }
             }).fail(function(jqXHR, textStatus, errorThrown) { 
-                 if (422 == jqXHR.status) {
-                      var formHTML    =  $("<div><div>").html(jqXHR.responseText).find('form').html();
-                      var currontForm = $this.find('form');
-                      $this.html(formHTML);
-                       
-                 }
+                if (422 == jqXHR.status) {
+                    var formHTML    =  $("<div><div>").html(jqXHR.responseText).find('form').html();
+                    var currontForm = $this.find('form');
+                    $this.html(formHTML);
+                }
             }); 
     },
     render: function(htmlData) {

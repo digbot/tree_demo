@@ -61,8 +61,7 @@ class DefaultController extends Controller
         
         return $this->redirect($this->generateUrl('index'));
     }
-    
-
+  
     /**
      * @Route("/",     name="index_empty", requirements={"id" = "\d+"}, defaults={"id" = 0})
      * @Route("/{id}", name="index")
@@ -70,30 +69,7 @@ class DefaultController extends Controller
      */
     public function indexAction($id = 0)
     {
-        $controller  = $this;
-        $em          = $this->getDoctrine()->getManager();
-        $repo        = $em->getRepository('Digger\TreeDemoBundle\Entity\Category');
-        $options = array(
-            'decorate' => true,
-            'rootOpen' => '<ul class="tree">',
-            'rootClose' => '</ul>',
-            'childOpen' =>  function($child) {
-                 return '<li id="tree_node_'.$child['id'].'">';
-             },
-            'childClose' => '</li>',
-            'nodeDecorator' => function($node) use (&$controller) {
-                $url = $controller->generateUrl("index", array("id" => $node['id']));
-                return '<a href="'.$url.'">'.$node['title'].'</a>';
-            }
-        );
-
-        $htmlTree = $repo->childrenHierarchy(
-            null, /* starting from root nodes */
-            false, /* load all children, not only direct */
-            $options
-        );
-
-        return array('htmlTree' => $htmlTree, 'id' => $id);
+        return array();
     }
     
     /**
@@ -107,14 +83,31 @@ class DefaultController extends Controller
         $category = $repo->find($id);
 
         if ($category instanceof Category) {
-            //$repo->removeFromTree($category);
             $em->remove($category);
             $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('index'));
+    }
+    
+    /**
+     * @Route("/remove/{id}", name="remove")
+     * @Template()
+     */
+    public function removeAction($id = 0)
+    {
+        $em       = $this->getDoctrine()->getManager();
+        $repo     = $em->getRepository('Digger\TreeDemoBundle\Entity\Category');
+        $category = $repo->find($id);
+
+        if ($category instanceof Category) {
+            $repo->removeFromTree($category);
             $em->clear();
         }
 
         return $this->redirect($this->generateUrl('index'));
     }
+    
     
     private function truncateEntity($table)
     {
