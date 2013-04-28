@@ -18,6 +18,22 @@ class Category
     CONST COLOR_BLACK = 4;
     CONST COLOR_WHITE = 5;
     
+    public static $cssClasses = array(
+        self::COLOR_BLUE     => 'label label-info',
+        self::COLOR_RED      => 'label label-important',
+        self::COLOR_GREEN    => 'label label-success',
+        self::COLOR_BLACK    => 'label label-inverse',
+        self::COLOR_WHITE    => ' '
+    );
+   
+    public static $colors = array(
+        self::COLOR_BLUE     => 'BLUE',
+        self::COLOR_RED      => 'RED',
+        self::COLOR_GREEN    => 'GREEN',
+        self::COLOR_BLACK    => 'BLACK',
+        self::COLOR_WHITE    => 'WHITE'
+    );
+    
     /**
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -254,12 +270,15 @@ class Category
     
     public static function getColorList()
     {
-        return array(
-            self::COLOR_BLUE     => 'BLUE',
-            self::COLOR_RED      => 'RED',
-            self::COLOR_GREEN    => 'GREEN',
-            self::COLOR_BLACK    => 'BLACK',
-            self::COLOR_WHITE    => 'WHITE'
-        );
+        return self::$colors;
+    }
+    
+    public static function getColorCssClass($colorIndex)
+    {
+        if (isset(self::$cssClasses[$colorIndex])) {
+            return self::$cssClasses[$colorIndex];
+        }
+        
+        return '';
     }
 }

@@ -27,7 +27,7 @@ class CategoryType extends AbstractType
               ->add('parent', 'entity', array(
                             'class'=> 'Digger\TreeDemoBundle\Entity\Category', 
                             'property' => 'title',
-                            'read_only' => true
+                            'read_only' => false
               ));
     }
 

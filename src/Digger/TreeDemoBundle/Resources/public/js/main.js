@@ -66,6 +66,7 @@ var tdTreeNode = {
             var thenum = href.replace( /^\D+/g, '');
             tdTreeNode.serverIndex = 'node/' + thenum;  
             tdTreeNode.refresh();
+            window.location.hash = 'tree_node_' + thenum;
             return false;
         });
 
@@ -84,7 +85,11 @@ var tdTreeIndex = {
         tree.jstree("select_node", '#node1', true);
         tree.bind("loaded.jstree", function (event, data) {
                 tree.jstree("open_all");
-                data.inst.select_node("#tree_node_1", true);
+                if (!window.location.hash) {
+                   window.location.hash = '#tree_node_1';
+                }
+                data.inst.select_node(window.location.hash, true);
+              
         });
 
         tree.bind("select_node.jstree", function (event, data) {
@@ -94,6 +99,7 @@ var tdTreeIndex = {
             var thenum = href.replace( /^\D+/g, '');
             tdTreeNode.serverIndex = 'node/' + thenum;  
             tdTreeNode.refresh();
+            window.location.hash = 'tree_node_' + thenum;
             return false;
         });
     }

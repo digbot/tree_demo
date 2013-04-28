@@ -32,8 +32,8 @@ class AjaxController extends Controller
              },
             'childClose' => '</li>',
             'nodeDecorator' => function($node) use (&$controller) {
-                //$url = $controller->generateUrl("index", array("id" => $node['id']));
-                return '<a href="#node'.$node['id'].'">'.$node['title'].'</a>';
+                $colorCss = Category::getColorCssClass($node['color']);
+                return '<a href="#node'.$node['id'].'"><span  class="'. $colorCss.'">'.$node['title'].'</span></a>';
             }
         );
 
@@ -53,8 +53,7 @@ class AjaxController extends Controller
     public function editAction($id = 0)
     { 
         $category = $this->findCategory($id);
-                 
-        return $this->processForm($category,  'DiggerTreeDemoBundle:Ajax:edit.html.twig');     
+        return $this->processForm($category, 'DiggerTreeDemoBundle:Ajax:edit.html.twig');     
     }
     
     /**
@@ -140,23 +139,5 @@ class AjaxController extends Controller
         $category = $repo->find($id);
        
         return $category;
-    }
-        
-    private function getErrorMessages(\Symfony\Component\Form\Form $form) {      
-        $errors = array();
-
-        if ($form->hasChildren()) {
-            foreach ($form->getChildren() as $child) {
-                if (!$child->isValid()) {
-                    $errors[$child->getName()] = $this->getErrorMessages($child);
-                }
-            }
-        } else {
-            foreach ($form->getErrors() as $key => $error) {
-                $errors[] = $error->getMessage();
-            }   
-        }
-
-        return $errors;
     }
 }
