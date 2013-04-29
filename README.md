@@ -3,19 +3,21 @@ Tree Demo
 
 Welcome to Tree Demo. This solution use Symfony 2 and DoctrineExtensions - Tree.
 The Thee extension (Doctrine 2) use a nested set implementation in order to store 
-tree date in relational database.
+tree data in relational database.
 
 
 1) Installing 
 ----------------------------------
 
-1.1) First use composer to all vendor libs.
-php composer.phar install
+1.1) First use composer to install all vendor libs.
+    
+    php composer.phar install
 
 1.2) Setup your database settings in /app/config/parameters.yml
 
 1.3) Generate your database with this command:
-php app/console doctrine:schema:create --dump-sql
+    
+    php app/console doctrine:schema:create --dump-sql
 
 1.4) Optional: Setup you virtual host on apache.
 
