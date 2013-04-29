@@ -1,5 +1,4 @@
 Tree Demo 
-
 ========================
 
 Welcome to Tree Demo. This solution use Symfony 2 and DoctrineExtensions - Tree.
