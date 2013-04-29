@@ -17,7 +17,7 @@ tree data in relational database.
 
 1.3) Generate your database with this command:
     
-    php app/console doctrine:schema:create --dump-sql
+    php app/console doctrine:schema:create --force
 
 1.4) Optional: Setup you virtual host on apache.
 
