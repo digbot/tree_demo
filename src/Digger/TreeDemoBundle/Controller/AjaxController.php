@@ -52,7 +52,7 @@ class AjaxController extends Controller
     public function editAction($id = 0)
     { 
         $category = $this->findCategory($id);
-        return $this->processForm($category, 'DiggerTreeDemoBundle:Ajax:edit.html.twig');     
+        return $this->processForm($category, 'DiggerTreeDemoBundle:Ajax:edit.html.twig', 'SAVED');     
     }
     
     /**
@@ -67,10 +67,10 @@ class AjaxController extends Controller
             $category->setParent($parent);
          }
 
-        return $this->processForm($category, 'DiggerTreeDemoBundle:Ajax:add.html.twig');
+        return $this->processForm($category, 'DiggerTreeDemoBundle:Ajax:add.html.twig', 'ADDED');
     }    
     
-     private function processForm(Category $category, $templating)
+     private function processForm(Category $category, $templating, $message)
      { 
         $request  = $this->getRequest();
         $form     = $this->createForm(new CategoryType(), $category);
@@ -87,7 +87,13 @@ class AjaxController extends Controller
                 $em->persist($category);
                 $em->flush();
                 
-                $response = new Response('OK', 200);
+                $flash = 'Category ' . $message . ' successfully.';
+                $this->get('session')->setFlash(
+                    'notice',
+                     $flash
+                );
+
+                $response = new Response($flash, 200);
                 return $response;
             } else {
                 $formHtml = $this->container->get('templating')->render($templating, array(

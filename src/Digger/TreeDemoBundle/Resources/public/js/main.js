@@ -43,6 +43,7 @@ var tdTreeNode = {
             $.post($this.attr('action'), $this.serialize(), function (data, textStatus, jqXHR) {
                 if (200 == jqXHR.status) {
                     tdTreeIndex.refresh(); 
+                    $('#main_flash_wrap').html(data);
                 } else {
                     console.log('Someting went wrong....'); 
                 }

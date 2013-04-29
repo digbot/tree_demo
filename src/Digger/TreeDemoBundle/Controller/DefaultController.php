@@ -85,6 +85,11 @@ class DefaultController extends Controller
         if ($category instanceof Category) {
             $em->remove($category);
             $em->flush();
+            
+            $this->get('session')->setFlash(
+                'notice',
+                'Category DELETED from tree successfully.'
+            );
         }
 
         return $this->redirect($this->generateUrl('index'));
@@ -103,11 +108,15 @@ class DefaultController extends Controller
         if ($category instanceof Category) {
             $repo->removeFromTree($category);
             $em->clear();
+            
+            $this->get('session')->setFlash(
+                'notice',
+                'Category REMOVED from tree successfully.'
+            );
         }
 
         return $this->redirect($this->generateUrl('index'));
     }
-    
     
     private function truncateEntity($table)
     {

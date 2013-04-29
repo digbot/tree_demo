@@ -1,3 +1,10 @@
+{% if app.session.hasFlash('notice') %}
+    <div class="alert alert-success">
+        {{ app.session.flash('notice') }}
+    </div>
+{% endif %}
+
+
 <!-- breadcrumb
 ================================================== -->
 <ul class="breadcrumb">

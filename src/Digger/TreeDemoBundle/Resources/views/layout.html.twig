@@ -78,13 +78,11 @@
         <div class="navbar navbar-inverse navbar-fixed-top">
           <div class="navbar-inner">
             <div class="container">
-          
               <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                 <span class="icon-bar"></span>
               </button>
               <a   href="{{ path('reload') }}" ><button class="btn btn-warning" type="button">Reload / Reset</button></a>
               <a   href="{{ path('add_root') }}" ><button class="btn btn-primary" type="button">Reset to root</button></a>
-              
               <a class="brand" href="/">{{ app_name }} {{ version }}</a>
                <div class="nav-collapse collapse">
               </div>
@@ -93,10 +91,9 @@
         </div>
 
         <div class="container-fluid">
-        {% block content %}
-        {% endblock %}
-        </div> <!-- /container -->
-
+            {% block content %}
+            {% endblock %}
+        </div>
         <hr>
 
       <footer>
