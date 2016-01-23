@@ -70,8 +70,8 @@ class AjaxController extends Controller
         return $this->processForm($category, 'DiggerTreeDemoBundle:Ajax:add.html.twig', 'ADDED');
     }    
     
-     private function processForm(Category $category, $templating, $message)
-     { 
+    private function processForm(Category $category, $templating, $message)
+    { 
         $request  = $this->getRequest();
         $form     = $this->createForm(new CategoryType(), $category);
          
@@ -109,7 +109,7 @@ class AjaxController extends Controller
         return array(
             'form' => $form->createView()
         );
-     }
+    }
     
     /**
      * @Route("/node/{id}", name="node", requirements={"id" = "\d+"}, defaults={"id" = 1})
